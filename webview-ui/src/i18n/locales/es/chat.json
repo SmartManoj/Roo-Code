@@ -10,7 +10,8 @@
 		"contextWindow": "Longitud del contexto:",
 		"closeAndStart": "Cerrar tarea e iniciar una nueva",
 		"export": "Exportar historial de tareas",
-		"delete": "Eliminar tarea (Shift + Clic para omitir confirmación)"
+		"delete": "Eliminar tarea (Shift + Clic para omitir confirmación)",
+		"condenseContext": "Condensar contexto de forma inteligente"
 	},
 	"unpin": "Desfijar",
 	"pin": "Fijar",
@@ -69,7 +70,7 @@
 		"tooltip": "Cancelar la operación actual"
 	},
 	"scrollToBottom": "Desplazarse al final del chat",
-	"about": "Genera, refactoriza y depura código con asistencia de IA.<br />Consulta nuestra <DocsLink>documentación</DocsLink> para obtener más información.",
+	"about": "Genera, refactoriza y depura código con asistencia de IA. Consulta nuestra <DocsLink>documentación</DocsLink> para obtener más información.",
 	"onboarding": "<strong>Tu lista de tareas en este espacio de trabajo está vacía.</strong> Comienza escribiendo una tarea abajo. ¿No estás seguro cómo empezar? Lee más sobre lo que Roo puede hacer por ti en <DocsLink>la documentación</DocsLink>.",
 	"rooTips": {
 		"boomerangTasks": {
@@ -198,16 +199,22 @@
 		"thinking": "Pensando",
 		"seconds": "{{count}}s"
 	},
+	"contextCondense": {
+		"title": "Contexto condensado",
+		"condensing": "Condensando contexto...",
+		"errorHeader": "Error al condensar el contexto",
+		"tokens": "tokens"
+	},
 	"followUpSuggest": {
 		"copyToInput": "Copiar a la entrada (o Shift + clic)"
 	},
 	"announcement": {
-		"title": "🎉 Roo Code 3.17 publicado",
-		"description": "Roo Code 3.17 trae potentes nuevas funcionalidades y mejoras basadas en tus comentarios.",
+		"title": "🎉 Roo Code {{version}} publicado",
+		"description": "Roo Code {{version}} trae potentes nuevas funcionalidades y mejoras basadas en tus comentarios.",
 		"whatsNew": "Novedades",
-		"feature1": "<bold>Caché implícito para Gemini</bold>: Las llamadas a la API de Gemini ahora se almacenan automáticamente en caché, reduciendo los costos de API",
-		"feature2": "<bold>Selección de modo más inteligente</bold>: Las definiciones de modo ahora pueden incluir orientación sobre cuándo debe usarse cada modo, permitiendo una mejor orquestación",
-		"feature3": "<bold>Condensación inteligente de contexto</bold>: Resume de forma inteligente el historial de conversación cuando el contexto se llena en lugar de truncarlo (activar en Configuración -> Experimental)",
+		"feature1": "<bold>Condensación Inteligente de Contexto Habilitada por Defecto</bold>: La condensación de contexto ahora está habilitada por defecto con configuraciones ajustables para cuando ocurre la condensación automática",
+		"feature2": "<bold>Botón de Condensación Manual</bold>: Nuevo botón en el encabezado de tareas te permite activar manualmente la condensación de contexto en cualquier momento",
+		"feature3": "<bold>Configuraciones de Condensación Mejoradas</bold>: Ajusta cuándo y cómo ocurre la condensación automática a través de la <contextSettingsLink>Configuración de Contexto</contextSettingsLink>",
 		"hideButton": "Ocultar anuncio",
 		"detailsDiscussLinks": "Obtén más detalles y participa en <discordLink>Discord</discordLink> y <redditLink>Reddit</redditLink> 🚀"
 	},
@@ -243,9 +250,22 @@
 		}
 	},
 	"systemPromptWarning": "ADVERTENCIA: Anulación de instrucciones del sistema personalizada activa. Esto puede romper gravemente la funcionalidad y causar un comportamiento impredecible.",
+	"profileViolationWarning": "El perfil actual infringe la configuración de tu organización",
 	"shellIntegration": {
 		"title": "Advertencia de ejecución de comandos",
 		"description": "Tu comando se está ejecutando sin la integración de shell de terminal de VSCode. Para suprimir esta advertencia, puedes desactivar la integración de shell en la sección <strong>Terminal</strong> de la <settingsLink>configuración de Roo Code</settingsLink> o solucionar problemas de integración de terminal de VSCode usando el enlace de abajo.",
 		"troubleshooting": "Haz clic aquí para ver la documentación de integración de shell."
+	},
+	"ask": {
+		"autoApprovedRequestLimitReached": {
+			"title": "Límite de Solicitudes Auto-aprobadas Alcanzado",
+			"description": "Roo ha alcanzado el límite auto-aprobado de {{count}} solicitud(es) API. ¿Deseas reiniciar el contador y continuar con la tarea?",
+			"button": "Reiniciar y Continuar"
+		}
+	},
+	"codebaseSearch": {
+		"wantsToSearch": "Roo quiere buscar en la base de código <code>{{query}}</code>:",
+		"wantsToSearchWithPath": "Roo quiere buscar en la base de código <code>{{query}}</code> en <code>{{path}}</code>:",
+		"didSearch": "Se encontraron {{count}} resultado(s) para <code>{{query}}</code>:"
 	}
 }

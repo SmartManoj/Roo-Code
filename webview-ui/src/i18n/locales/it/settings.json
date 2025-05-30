@@ -28,9 +28,37 @@
 		"notifications": "Notifiche",
 		"contextManagement": "Contesto",
 		"terminal": "Terminal",
+		"prompts": "Prompt",
 		"experimental": "Sperimentale",
 		"language": "Lingua",
 		"about": "Informazioni su Roo Code"
+	},
+	"prompts": {
+		"description": "Configura i prompt di supporto utilizzati per azioni rapide come il miglioramento dei prompt, la spiegazione del codice e la risoluzione dei problemi. Questi prompt aiutano Roo a fornire una migliore assistenza per le attività di sviluppo comuni."
+	},
+	"codeIndex": {
+		"title": "Indicizzazione del codice",
+		"enableLabel": "Abilita indicizzazione del codice",
+		"enableDescription": "<0>L'indicizzazione del codice</0> è una funzionalità sperimentale che crea un indice di ricerca semantica del tuo progetto utilizzando embedding AI. Questo permette a Roo Code di comprendere meglio e navigare grandi basi di codice trovando codice rilevante basato sul significato piuttosto che solo su parole chiave.",
+		"providerLabel": "Fornitore di embedding",
+		"selectProviderPlaceholder": "Seleziona fornitore",
+		"openaiProvider": "OpenAI",
+		"ollamaProvider": "Ollama",
+		"openaiKeyLabel": "Chiave OpenAI:",
+		"modelLabel": "Modello",
+		"selectModelPlaceholder": "Seleziona modello",
+		"ollamaUrlLabel": "URL Ollama:",
+		"qdrantUrlLabel": "URL Qdrant",
+		"qdrantKeyLabel": "Chiave Qdrant:",
+		"startIndexingButton": "Avvia indicizzazione",
+		"clearIndexDataButton": "Cancella dati indice",
+		"unsavedSettingsMessage": "Per favore salva le tue impostazioni prima di avviare il processo di indicizzazione.",
+		"clearDataDialog": {
+			"title": "Sei sicuro?",
+			"description": "Questa azione non può essere annullata. Eliminerà permanentemente i dati di indice del tuo codice.",
+			"cancelButton": "Annulla",
+			"confirmButton": "Cancella dati"
+		}
 	},
 	"autoApprove": {
 		"description": "Permetti a Roo di eseguire automaticamente operazioni senza richiedere approvazione. Abilita queste impostazioni solo se ti fidi completamente dell'IA e comprendi i rischi di sicurezza associati.",
@@ -79,6 +107,11 @@
 			"allowedCommandsDescription": "Prefissi di comando che possono essere auto-eseguiti quando \"Approva sempre operazioni di esecuzione\" è abilitato. Aggiungi * per consentire tutti i comandi (usare con cautela).",
 			"commandPlaceholder": "Inserisci prefisso comando (es. 'git ')",
 			"addButton": "Aggiungi"
+		},
+		"apiRequestLimit": {
+			"title": "Richieste massime",
+			"description": "Esegui automaticamente questo numero di richieste API prima di chiedere l'approvazione per continuare con l'attività.",
+			"unlimited": "Illimitato"
 		}
 	},
 	"providers": {
@@ -109,6 +142,7 @@
 		"glamaApiKey": "Chiave API Glama",
 		"getGlamaApiKey": "Ottieni chiave API Glama",
 		"useCustomBaseUrl": "Usa URL base personalizzato",
+		"useReasoning": "Abilita ragionamento",
 		"useHostHeader": "Usa intestazione Host personalizzata",
 		"useLegacyFormat": "Usa formato API OpenAI legacy",
 		"customHeaders": "Intestazioni personalizzate",
@@ -118,7 +152,10 @@
 		"requestyApiKey": "Chiave API Requesty",
 		"refreshModels": {
 			"label": "Aggiorna modelli",
-			"hint": "Riapri le impostazioni per vedere i modelli più recenti."
+			"hint": "Riapri le impostazioni per vedere i modelli più recenti.",
+			"loading": "Aggiornamento dell'elenco dei modelli...",
+			"success": "Elenco dei modelli aggiornato con successo!",
+			"error": "Impossibile aggiornare l'elenco dei modelli. Riprova."
 		},
 		"getRequestyApiKey": "Ottieni chiave API Requesty",
 		"openRouterTransformsText": "Comprimi prompt e catene di messaggi alla dimensione del contesto (<a>Trasformazioni OpenRouter</a>)",
@@ -185,6 +222,8 @@
 		},
 		"unboundApiKey": "Chiave API Unbound",
 		"getUnboundApiKey": "Ottieni chiave API Unbound",
+		"unboundRefreshModelsSuccess": "Lista dei modelli aggiornata! Ora puoi selezionare tra gli ultimi modelli.",
+		"unboundInvalidApiKey": "Chiave API non valida. Controlla la tua chiave API e riprova.",
 		"humanRelay": {
 			"description": "Non è richiesta alcuna chiave API, ma l'utente dovrà aiutare a copiare e incollare le informazioni nella chat web AI.",
 			"instructions": "Durante l'uso, apparirà una finestra di dialogo e il messaggio corrente verrà automaticamente copiato negli appunti. Dovrai incollarlo nelle versioni web dell'AI (come ChatGPT o Claude), quindi copiare la risposta dell'AI nella finestra di dialogo e fare clic sul pulsante di conferma."
@@ -298,6 +337,25 @@
 	},
 	"contextManagement": {
 		"description": "Controlla quali informazioni sono incluse nella finestra di contesto dell'IA, influenzando l'utilizzo di token e la qualità delle risposte",
+		"autoCondenseContextPercent": {
+			"label": "Soglia per attivare la condensazione intelligente del contesto",
+			"description": "Quando la finestra di contesto raggiunge questa soglia, Roo la condenserà automaticamente."
+		},
+		"condensingApiConfiguration": {
+			"label": "Configurazione API per la condensazione del contesto",
+			"description": "Seleziona quale configurazione API utilizzare per le operazioni di condensazione del contesto. Lascia deselezionato per utilizzare la configurazione attiva corrente.",
+			"useCurrentConfig": "Predefinito"
+		},
+		"customCondensingPrompt": {
+			"label": "Prompt personalizzato condensazione contesto",
+			"description": "Prompt di sistema personalizzato per la condensazione del contesto. Lascia vuoto per utilizzare il prompt predefinito.",
+			"placeholder": "Inserisci qui il tuo prompt di condensazione personalizzato...\n\nPuoi utilizzare la stessa struttura del prompt predefinito:\n- Conversazione precedente\n- Lavoro attuale\n- Concetti tecnici chiave\n- File e codice pertinenti\n- Risoluzione dei problemi\n- Attività in sospeso e prossimi passi",
+			"reset": "Ripristina predefinito",
+			"hint": "Vuoto = usa prompt predefinito"
+		},
+		"autoCondenseContext": {
+			"name": "Attiva automaticamente la condensazione intelligente del contesto"
+		},
 		"openTabs": {
 			"label": "Limite contesto schede aperte",
 			"description": "Numero massimo di schede VSCode aperte da includere nel contesto. Valori più alti forniscono più contesto ma aumentano l'utilizzo di token."
@@ -395,11 +453,6 @@
 		}
 	},
 	"experimental": {
-		"warning": "⚠️",
-		"AUTO_CONDENSE_CONTEXT": {
-			"name": "Condensa intelligentemente la finestra di contesto",
-			"description": "Utilizza una chiamata LLM per riassumere la conversazione precedente quando la finestra di contesto dell'attività è quasi piena, invece di eliminare i messaggi vecchi. Avviso: il costo della sintesi non è attualmente incluso nei costi API mostrati nell'interfaccia."
-		},
 		"DIFF_STRATEGY_UNIFIED": {
 			"name": "Usa strategia diff unificata sperimentale",
 			"description": "Abilita la strategia diff unificata sperimentale. Questa strategia potrebbe ridurre il numero di tentativi causati da errori del modello, ma può causare comportamenti imprevisti o modifiche errate. Abilitala solo se comprendi i rischi e sei disposto a rivedere attentamente tutte le modifiche."
@@ -429,6 +482,11 @@
 		"useCustom": "Usa temperatura personalizzata",
 		"description": "Controlla la casualità nelle risposte del modello.",
 		"rangeDescription": "Valori più alti rendono l'output più casuale, valori più bassi lo rendono più deterministico."
+	},
+	"seed": {
+		"useCustom": "Usa seed personalizzato",
+		"description": "Controlla la natura deterministica delle risposte del modello. Lasciare vuoto per casuale.",
+		"label": "Inserisci un valore di seed"
 	},
 	"modelInfo": {
 		"supportsImages": "Supporta immagini",
@@ -461,7 +519,7 @@
 		"useCustomModel": "Usa personalizzato: {{modelId}}"
 	},
 	"footer": {
-		"feedback": "Se hai domande o feedback, sentiti libero di aprire un issue su <githubLink>github.com/RooVetGit/Roo-Code</githubLink> o unirti a <redditLink>reddit.com/r/RooCode</redditLink> o <discordLink>discord.gg/roocode</discordLink>",
+		"feedback": "Se hai domande o feedback, sentiti libero di aprire un issue su <githubLink>github.com/RooCodeInc/Roo-Code</githubLink> o unirti a <redditLink>reddit.com/r/RooCode</redditLink> o <discordLink>discord.gg/roocode</discordLink>",
 		"telemetry": {
 			"label": "Consenti segnalazioni anonime di errori e utilizzo",
 			"description": "Aiuta a migliorare Roo Code inviando dati di utilizzo anonimi e segnalazioni di errori. Non vengono mai inviati codice, prompt o informazioni personali. Consulta la nostra politica sulla privacy per maggiori dettagli."
@@ -487,7 +545,10 @@
 			"invalidFormat": "Formato ARN non valido. Verificare i requisiti del formato.",
 			"regionMismatch": "Attenzione: La regione nel tuo ARN ({{arnRegion}}) non corrisponde alla regione selezionata ({{region}}). Questo potrebbe causare problemi di accesso. Il provider utilizzerà la regione dall'ARN."
 		},
-		"modelAvailability": "L'ID modello ({{modelId}}) fornito non è disponibile. Seleziona un modello diverso."
+		"modelAvailability": "L'ID modello ({{modelId}}) fornito non è disponibile. Seleziona un modello diverso.",
+		"providerNotAllowed": "Il fornitore '{{provider}}' non è consentito dalla tua organizzazione",
+		"modelNotAllowed": "Il modello '{{model}}' non è consentito per il fornitore '{{provider}}' dalla tua organizzazione.",
+		"profileInvalid": "Questo profilo contiene un fornitore o un modello non consentito dalla tua organizzazione."
 	},
 	"placeholders": {
 		"apiKey": "Inserisci chiave API...",

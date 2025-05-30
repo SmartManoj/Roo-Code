@@ -1,6 +1,4 @@
-import { GitCommit } from "../utils/git"
-
-import {
+import type {
 	GlobalSettings,
 	ProviderSettingsEntry,
 	ProviderSettings,
@@ -8,16 +6,16 @@ import {
 	ModeConfig,
 	TelemetrySetting,
 	ExperimentId,
-	ClineAsk,
-	ClineSay,
-	ToolProgressStatus,
 	ClineMessage,
-} from "../schemas"
+	OrganizationAllowList,
+	CloudUserInfo,
+} from "@roo-code/types"
+
+import { GitCommit } from "../utils/git"
+
 import { McpServer } from "./mcp"
 import { Mode } from "./modes"
 import { RouterModels } from "./api"
-
-export type { ProviderSettingsEntry, ToolProgressStatus }
 
 export interface LanguageModelChatSelector {
 	vendor?: string
@@ -69,6 +67,12 @@ export interface ExtensionMessage {
 		| "setHistoryPreviewCollapsed"
 		| "commandExecutionStatus"
 		| "vsCodeSetting"
+		| "authenticatedUser"
+		| "condenseTaskContextResponse"
+		| "singleRouterModelFetchResponse"
+		| "indexingStatusUpdate"
+		| "indexCleared"
+		| "codebaseIndexConfig"
 	text?: string
 	action?:
 		| "chatButtonClicked"
@@ -76,6 +80,7 @@ export interface ExtensionMessage {
 		| "settingsButtonClicked"
 		| "historyButtonClicked"
 		| "promptsButtonClicked"
+		| "accountButtonClicked"
 		| "didBecomeVisible"
 		| "focusInput"
 	invoke?: "newChat" | "sendMessage" | "primaryButtonClick" | "secondaryButtonClick" | "setChatBoxMessage"
@@ -107,6 +112,8 @@ export interface ExtensionMessage {
 	error?: string
 	setting?: string
 	value?: any
+	userInfo?: CloudUserInfo
+	organizationAllowList?: OrganizationAllowList
 }
 
 export type ExtensionState = Pick<
@@ -131,6 +138,7 @@ export type ExtensionState = Pick<
 	| "alwaysAllowSubtasks"
 	| "alwaysAllowExecute"
 	| "allowedCommands"
+	| "allowedMaxRequests"
 	| "browserToolEnabled"
 	| "browserViewportSize"
 	| "screenshotQuality"
@@ -168,6 +176,10 @@ export type ExtensionState = Pick<
 	| "customModePrompts"
 	| "customSupportPrompts"
 	| "enhancementApiConfigId"
+	| "condensingApiConfigId"
+	| "customCondensingPrompt"
+	| "codebaseIndexConfig"
+	| "codebaseIndexModels"
 > & {
 	version: string
 	clineMessages: ClineMessage[]
@@ -204,15 +216,20 @@ export type ExtensionState = Pick<
 	renderContext: "sidebar" | "editor"
 	settingsImportedAt?: number
 	historyPreviewCollapsed?: boolean
-}
 
-export type { ClineMessage, ClineAsk, ClineSay }
+	cloudUserInfo: CloudUserInfo | null
+	organizationAllowList: OrganizationAllowList
+
+	autoCondenseContext: boolean
+	autoCondenseContextPercent: number
+}
 
 export interface ClineSayTool {
 	tool:
 		| "editedExistingFile"
 		| "appliedDiff"
 		| "newFileCreated"
+		| "codebaseSearch"
 		| "readFile"
 		| "fetchInstructions"
 		| "listFilesTopLevel"
@@ -239,6 +256,7 @@ export interface ClineSayTool {
 	startLine?: number
 	endLine?: number
 	lineNumber?: number
+	query?: string
 }
 
 // Must keep in sync with system prompt.
